@@ -4,7 +4,7 @@
             id: 1, 
             name: "Chocolate Fudge", 
             description: "Rich, creamy fudge chocolate.", 
-            price: 2.50 
+            price: 2.50  
          },
               
         {  id: 2, 
