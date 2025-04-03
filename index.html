@@ -1,72 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Nawal Sweets Bar</title>
-        <style>
-            body {
-                margin: 0;
-                font-family: Arial, sans-serif;
-            }
-            .navbar {
-                background-color: #FAD7A0; /* Skin color */
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 15px 20px;
-                position: relative;
-            }
-            .menu-button {
-                background: none;
-                border: none;
-                font-size: 24px;
-                font-weight: bold;
-                font-family: 'Georgia', serif;
-                cursor: pointer;
-            }
-            .menu-icon {
-                font-size: 30px;
-                cursor: pointer;
-            }
-            .menu {
-                display: none;
-                position: absolute;
-                top: 60px;
-                left: 20px;
-                background: white;
-                border: 1px solid #ccc;
-                padding: 10px;
-                box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-                width: 150px;
-            }
-            .menu p {
-                margin: 0;
-                padding: 10px;
-                cursor: pointer;
-            }
-            .menu p:hover {
-                background-color: #f0f0f0;
-            }
-        </style>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                document.getElementById("menu-button").addEventListener("click", function() {
-                    var menu = document.getElementById("menu");
-                    menu.style.display = menu.style.display === "block" ? "none" : "block";
-                });
-            });
-        </script>
-    </head>
-    <body>
-        <div class="navbar">
-            <button id="menu-button" class="menu-button">Nawal Sweets</button>
-            <div class="menu-icon">&#9776;</div>
-        </div>
-        <div id="menu" class="menu">
-            <p>Menu Item 1</p>
-            <p>Menu Item 2</p>
-            <p>Menu Item 3</p>
-        </div>
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <title>Sweet Shop Online Shopping Cart</title>
+</head>
+<body>
+  <h1>Sweet Shop Online Shopping Cart</h1>
+
+  <!-- Section for product list -->
+  <div id="product-list">
+    <!-- Products will be dynamically inserted here -->
+  </div>
+
+  <!-- Section for shopping cart -->
+  <div id="shopping-cart">
+    <!-- Shopping cart details will be rendered here -->
+  </div>
+
+  <!-- Checkout button -->
+  <button id="checkout-btn">Checkout</button>
+
+  <!-- Confirmation message -->
+  <div id="confirmation"></div>
+
+  <!-- Link to JavaScript file -->
+  <script src="script.js"></script>
+</body>
 </html>
