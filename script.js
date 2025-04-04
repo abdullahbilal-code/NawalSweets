@@ -11,7 +11,7 @@
             name: "Caramel Toffee", 
             description: "Sweet, chewy caramel toffee.", 
             price: 1.75 
-        } ,
+        },
         {  id: 3, 
           name: "Caramel Choclate", 
           description: "Sweet, chewy caramel Choclate.", 
