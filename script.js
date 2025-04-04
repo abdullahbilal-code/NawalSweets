@@ -73,6 +73,21 @@
     
     cartDiv.innerHTML += `<p><strong>Total: €${total.toFixed(2)}</strong></p>`;
    }
+
+   // Function to update the quantity of a product in the cart
+     function updateQuantity(productId, newQuantity) {
+       const item = cart.find(item => item.id === productId);
+         if (item) {
+           item.quantity = parseInt(newQuantity, 10);
+             renderCart();
+          }
+}
+
+   // Function to remove a product from the cart
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  renderCart();
+}
   
     // Event listener for the checkout button
     document.getElementById('checkout-btn').addEventListener('click', () => {
