@@ -137,6 +137,24 @@ function renderCart() {
   cartTotalSpan.innerText = total.toFixed(2);
 }
 
+// Increment function
+function incrementCartQuantity(productId) {
+  const item = cart.find(cartItem => cartItem.id === productId);
+  if (item) {
+    item.quantity++;
+    renderCart(); // Re-render the cart to update the display and total
+  }
+}
+
+//Decrement Function 
+function decrementCartQuantity(productId) {
+  const item = cart.find(cartItem => cartItem.id === productId);
+  if (item && item.quantity > 1) {
+    item.quantity--;
+    renderCart();
+  }
+}
+
 
 // Function to update the quantity of a product in the cart
 function updateQuantity(productId, newQuantity) {
