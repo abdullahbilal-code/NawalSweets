@@ -83,6 +83,7 @@ function decrementQuantity(productId) {
 
 // Add product to cart with the selected quantity
 function addToCart(productId) {
+  document.getElementById('confirmation').innerText = "";
   const product = products.find(p => p.id === productId);
   const selectedQuantity = productQuantities[productId];
   const existingItem = cart.find(item => item.id === productId);
