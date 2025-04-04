@@ -2,35 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NAWAL SWEETS</title>
+  <title>Sweet Shop Online Shopping Cart</title>
+  <!-- Link to external CSS -->
   <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
-    <header>
-        <h1>Sweet Shop Online Shopping Cart</h1>
-        <button class="menu-button" onclick="toggleCartMenu()">Cart</button>
-    </header>
+  <!-- Header Title -->
+  <header>
+    <h1>Sweet Shop Online Shopping Cart</h1>
+    <button class="menu-button" onclick="toggleCartMenu()">Cart</button>
+  </header>
 
-  <!-- products list -->
-  <div id="product-list">
-    <!-- Products will be dynamically inserted here -->
+  <!-- Main Container to hold Products and Cart side by side -->
+  <div class="container">
+    <!-- Product Section -->
+    <div class="product-section" id="product-section">
+      <!-- Product cards will be injected here by script.js -->
+    </div>
+
+    <!-- Cart Section -->
+    <div class="cart-section" id="cart-section">
+      <h2>Shopping Cart</h2>
+      <div id="cart-items">
+        <!-- Cart items will be rendered here -->
+      </div>
+      <p><strong>Total: €<span id="cart-total">0.00</span></strong></p>
+      <button id="checkout-btn">Checkout</button>
+    </div>
   </div>
 
-   <!-- Section for shopping cart -->
-    <div id="shopping-cart">
-    <h2>Shopping Cart</h2>
-     <div id="cart-items">
-      <!-- Cart items will be rendered here -->
-         </div>
-           <p><strong>Total: €<span id="cart-total">0.00</span></strong></p>
-              <button id="checkout-btn">Checkout</button>
-              </div>
+  <!-- Confirmation message -->
+  <div id="confirmation"></div>
 
-       <!-- Confirmation message -->
-      <div id="confirmation"></div>
-
-       <!-- Link to JavaScript file -->
-        <script src="script.js"></script>
-    </body>
-      </html>
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>
