@@ -62,17 +62,24 @@
   
   // Function to render the shopping cart details
   function renderCart() {
-    const cartDiv = document.getElementById('shopping-cart');
-    cartDiv.innerHTML = '';
+    const cartItemsDiv = document.getElementById('cart-items');
+    const cartTotalSpan = document.getElementById('cart-total');
+    cartItemsDiv.innerHTML = '';
     let total = 0;
-    
+  
     cart.forEach(item => {
       total += item.price * item.quantity;
-      cartDiv.innerHTML += `<p>${item.name} - ${item.quantity} x €${item.price.toFixed(2)}</p>`;
+      const cartItemDiv = document.createElement('div');
+      cartItemDiv.innerHTML = `
+        <p>${item.name} - €${item.price.toFixed(2)}</p>
+        <input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${item.id}, this.value)">
+        <button onclick="removeFromCart(${item.id})">Remove</button>
+      `;
+      cartItemsDiv.appendChild(cartItemDiv);
     });
-    
-    cartDiv.innerHTML += `<p><strong>Total: €${total.toFixed(2)}</strong></p>`;
-   }
+  
+    cartTotalSpan.innerText = total.toFixed(2);
+  }
 
    // Function to update the quantity of a product in the cart
      function updateQuantity(productId, newQuantity) {
@@ -84,10 +91,10 @@
 }
 
    // Function to remove a product from the cart
-function removeFromCart(productId) {
-  cart = cart.filter(item => item.id !== productId);
-  renderCart();
-}
+       function removeFromCart(productId) {
+          cart = cart.filter(item => item.id !== productId);
+            renderCart();
+        }
   
     // Event listener for the checkout button
     document.getElementById('checkout-btn').addEventListener('click', () => {
