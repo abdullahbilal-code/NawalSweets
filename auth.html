@@ -2,22 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sweet Shop - Login & Signup</title>
+  <title>Sweet Shop - Authentication</title>
   <link rel="stylesheet" href="style.css">
+  <!-- You can add Font Awesome here if needed -->
 </head>
 <body>
-
   <div class="auth-container">
-    <!-- Login Form -->
+    <!-- Login Form (default view) -->
     <div id="login-form" class="form-box">
       <h2>Login</h2>
       <input type="email" id="login-email" placeholder="Email" required />
       <input type="password" id="login-password" placeholder="Password" required />
       <button onclick="loginUser()">Login</button>
       <p>Don't have an account? <a href="#" onclick="toggleForm('signup')">Sign Up</a></p>
+      <p id="login-message" class="message"></p>
     </div>
 
-    <!-- Sign Up Form -->
+    <!-- Sign Up Form (hidden by default) -->
     <div id="signup-form" class="form-box hidden">
       <h2>Sign Up</h2>
       <input type="text" id="signup-name" placeholder="Username" required />
@@ -26,10 +27,8 @@
       <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required />
       <button onclick="signupUser()">Sign Up</button>
       <p>Already have an account? <a href="#" onclick="toggleForm('login')">Login</a></p>
+      <p id="signup-message" class="message"></p>
     </div>
-
-    <!-- Message Box -->
-    <p id="message"></p>
   </div>
 
   <script src="auth.js"></script>
