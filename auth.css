@@ -1,0 +1,79 @@
+/* Basic Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Overall Body Styling */
+  body {
+    font-family: Arial, sans-serif;
+    background: #fff0e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  /* Authentication Container */
+  .auth-container {
+    background-color: #fff;
+    border: 2px solid #ffa366;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ffc2a1;
+    width: 300px;
+    text-align: center;
+  }
+  
+  /* Form Box Styling */
+  .form-box {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Input Fields */
+  .form-box input {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  /* Buttons */
+  button {
+    padding: 10px;
+    background-color: #ff914d;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #ff7733;
+  }
+  
+  /* Links in forms */
+  .form-box p a {
+    color: #ff914d;
+    text-decoration: none;
+  }
+  
+  .form-box p a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Hidden class to toggle form display */
+  .hidden {
+    display: none;
+  }
+  
+  /* Message styling for errors/success */
+  .message {
+    margin-top: 15px;
+    font-weight: bold;
+  }
+  
