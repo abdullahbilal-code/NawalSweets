@@ -5,7 +5,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Path to our JSON file acting as a database
-DB_PATH = os.path.join(os.path.dirname(__file__), 'db.json')
+DB_PATH = os.path.join(os.path.dirname(__file__), 'DB.json')
 
 def read_db():
     with open(DB_PATH, 'r') as f:
