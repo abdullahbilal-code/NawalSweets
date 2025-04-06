@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,render_template
 import json, os
 from datetime import datetime
 
@@ -8,11 +8,11 @@ app = Flask(__name__)
 DB_PATH = os.path.join(os.path.dirname(__file__), 'DB.json')
 
 def read_db():
-    with open(DB_PATH, 'r') as f:
+    with open("./static/js/DB.json", 'r') as f:
         return json.load(f)
 
 def write_db(data):
-    with open(DB_PATH, 'w') as f:
+    with open("./static/js/DB.json", 'w') as f:
         json.dump(data, f, indent=2)
 
 # API endpoint for user signup
@@ -96,6 +96,16 @@ def get_cart(user_id):
     db = read_db()
     user_cart = next((cart['items'] for cart in db['carts'] if cart['userId'] == user_id), [])
     return jsonify(user_cart)
+
+
+
+@app.route('/')
+def home():
+    return render_template("index.html")
+
+@app.route('/auth')
+def auth():
+    return render_template('auth.html')
 
 if __name__ == '__main__':
     app.run(port=3000, debug=True)
