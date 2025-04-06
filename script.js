@@ -38,7 +38,7 @@ const productQuantities = {};
 
 // Function to render the products in a grid layout with image, name, quantity controls, and Add to Cart button
 function renderProducts() {
-  const productSection = document.getElementById('product-section');
+  const productSection = document.getElementById('cart-items');
   productSection.innerHTML = ''; // Clear previous content
 
   products.forEach(product => {
