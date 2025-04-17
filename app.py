@@ -19,8 +19,9 @@ def signup():
     name = data.get('name')
     email = data.get('email')
     password = data.get('password')
-    
+    phone = data.get('phoneNumber')
     db = read_db()
+
     # Check if user already exists (case-insensitive)
     if any(user['email'].lower() == email.lower() for user in db['users']):
         return jsonify({'message': 'User with this email already exists.'}), 400
@@ -29,7 +30,8 @@ def signup():
         "id": int(datetime.now().timestamp()),
         "name": name,
         "email": email,
-        "password": password
+        "password": password,
+        "Contact": phone
     }
     db['users'].append(new_user)
     write_db(db)
@@ -47,7 +49,7 @@ def login():
     if user:
         return jsonify({'message': 'Login successful!', 'user': user})
     else:
-        return jsonify({'message': 'Invalid credentials.'}), 401
+        return jsonify({'message': 'Email or Password Invalid.'}), 401
 
 # API endpoint to get products
 @app.route('/api/products', methods=['GET'])
@@ -58,34 +60,49 @@ def get_products():
             "name": "Chocolate Fudge",
             "description": "Rich, creamy fudge chocolate.",
             "price": 2.50,
-            "image": "../static/images/chocolate_fudge.jpg"
+            "image": "/static/images/chocolate_fudge.jpg"
         },
         {
             "id": 2,
             "name": "Caramel Toffee",
             "description": "Sweet, chewy caramel toffee.",
             "price": 1.75,
-            "image": "https://via.placeholder.com/150/FF5733/FFFFFF?text=Caramel+Toffee"
+            "image": "/static/images/caramel_toffee.jpg"
         },
         {
            "id": 3,
            "name": "Strawberry Candy",
            "description": "Delicious strawberry-flavored candy.",
            "price": 1.25,
-           "image": "https://via.placeholder.com/150/FFB6C1/FFFFFF?text=Strawberry"
+            "image": "/static/images/strawberry_candy.jpg"
+
         },
        {
          "id": 4,
          "name": "Mint Delight",
          "description": "Cool, minty sweet treat.",
          "price": 1.95,
-         "image": "https://via.placeholder.com/150/98FB98/FFFFFF?text=Mint+Delight"
+         "image": "/static/images/mint_delight.jpg"
+       },
+        {
+         "id": 5,
+         "name": "Gulab Jamun",
+         "description": "Sweet, Pakistani Dessert.",
+         "price": 2.50,
+         "image": "/static/images/gulab_jamun.jpeg"
+       },
+        {
+         "id": 6,
+         "name": "Habshi Halwa",
+         "description": "Healthy, sweet delightfull treat.",
+         "price": 3.95,
+         "image": "/static/images/habshi_halwa.jpg"
        }
-        # Add more products as needed
+       
     ]
     return jsonify(products)
 
-# API endpoint to update a user's cart
+#  endpoint to update a users cart
 @app.route('/api/cart', methods=['POST'])
 def update_cart():
     data = request.get_json()
