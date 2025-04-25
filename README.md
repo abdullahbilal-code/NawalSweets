@@ -1,7 +1,8 @@
 # ISC-CA-ONE NAWAL SWEETS Shopping Cart
 #Acknowledgements
 
-#----Frontend----
+#----------------------------------FRONTEND----------------------------------------------------------------------
+
 On frontend I have Products listing, Shopping Cart and Login Sigup Button 
 
 On frontend products Data is coming from app.py for this I get help from stackoverflow and w3school
@@ -33,7 +34,8 @@ For Linking CSS Files with Index.html and auth.html I get Help from w3school
 
 
 
-#----Backend-----
+#--------------------BACKEND--------------------------------
+
 I am using File system so to avoid confusion and get simplicity I kept my products list in app.py
 Like using
 @app.route('/api/products', methods=['GET'])
