@@ -4,6 +4,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+
+
 def read_db():
     with open("./static/js/DB.json", 'r') as f:
         return json.load(f)
@@ -22,9 +24,10 @@ def signup():
     phone = data.get('phoneNumber')
     db = read_db()
 
-    # Check if user already exists (case-insensitive)
-    if any(user['email'].lower() == email.lower() for user in db['users']):
-        return jsonify({'message': 'User with this email already exists.'}), 400
+    for user in db['users']:
+        if user['email'].lower() == email.lower():
+            return jsonify({'message': 'User with this email already exists.'}), 400    
+        
 
     new_user = {
         "id": int(datetime.now().timestamp()),
@@ -44,12 +47,12 @@ def login():
     email = data.get('email')
     password = data.get('password')
     db = read_db()
-    user = next((user for user in db['users']
-                 if user['email'].lower() == email.lower() and user['password'] == password), None)
-    if user:
-        return jsonify({'message': 'Login successful!', 'user': user})
-    else:
-        return jsonify({'message': 'Email or Password Invalid.'}), 401
+
+    for user in db['users']:
+        if user['email'].lower() == email.lower() and user['password'] == password:
+            return jsonify({'message': 'Login successful!', 'user': user})
+        
+    return jsonify({'message': 'Email or Password Invalid.'}), 401
 
 # API endpoint to get products
 @app.route('/api/products', methods=['GET'])
@@ -110,7 +113,12 @@ def update_cart():
     cart_items = data.get('cartItems')
     db = read_db()
     # Find if a cart already exists for the user
-    cart_index = next((i for i, cart in enumerate(db['carts']) if cart['userId'] == user_id), None)
+    cart_index = None
+    for i, cart in enumerate(db['carts']):
+        if cart['userId'] == user_id:
+            cart_index = i
+            break
+    
     if cart_index is not None:
         db['carts'][cart_index]['items'] = cart_items
     else:
@@ -122,8 +130,11 @@ def update_cart():
 @app.route('/api/cart/<int:user_id>', methods=['GET'])
 def get_cart(user_id):
     db = read_db()
-    user_cart = next((cart['items'] for cart in db['carts'] if cart['userId'] == user_id), [])
-    return jsonify(user_cart)
+    
+    for cart in db['carts']:
+        if cart['userId'] == user_id:
+            return jsonify(cart['items'])
+    return jsonify([])  
 
 
 
