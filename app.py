@@ -1,18 +1,24 @@
 from flask import Flask, request, jsonify,render_template
-import json, os
-from datetime import datetime
+import json
+import sqlite3
 
 app = Flask(__name__)
+DB_PATH = "data.db"
 
 
+def get_conn():
+    return sqlite3.connect(DB_PATH)
 
-def read_db():
-    with open("./static/js/DB.json", 'r') as f:
-        return json.load(f)
 
-def write_db(data):
-    with open("./static/js/DB.json", 'w') as f:
-        json.dump(data, f, indent=2)
+def init_db():
+    conn = get_conn()
+    conn.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT, contact TEXT)")
+    conn.execute("CREATE TABLE IF NOT EXISTS carts (user_id INTEGER PRIMARY KEY, items TEXT)")
+    conn.commit()
+    conn.close()
+
+
+init_db()
 
 # API endpoint for user signup
 @app.route('/api/signup', methods=['POST'])
@@ -22,22 +28,18 @@ def signup():
     email = data.get('email')
     password = data.get('password')
     phone = data.get('phoneNumber')
-    db = read_db()
-
-    for user in db['users']:
-        if user['email'].lower() == email.lower():
-            return jsonify({'message': 'User with this email already exists.'}), 400    
-        
-
-    new_user = {
-        "id": int(datetime.now().timestamp()),
-        "name": name,
-        "email": email,
-        "password": password,
-        "Contact": phone
-    }
-    db['users'].append(new_user)
-    write_db(db)
+    conn = get_conn()
+    cur = conn.execute("SELECT id FROM users WHERE lower(email)=lower(?)", (email))
+    existing = cur.fetchone()
+    if existing:
+        conn.close()
+        return jsonify({'message': 'User with this email already exists.'}), 400
+    cur = conn.cursor()
+    cur.execute("INSERT INTO users (name, email, password, contact) VALUES (?, ?, ?, ?)", (name, email, password, phone))
+    conn.commit()
+    new_id = cur.lastrowid
+    conn.close()
+    new_user = {"id": new_id, "name": name, "email": email, "password": password, "Contact": phone}
     return jsonify({'message': 'User signed up successfully!', 'user': new_user}), 201
 
 # API endpoint for user login
@@ -46,12 +48,13 @@ def login():
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
-    db = read_db()
-
-    for user in db['users']:
-        if user['email'].lower() == email.lower() and user['password'] == password:
-            return jsonify({'message': 'Login successful!', 'user': user})
-        
+    conn = get_conn()
+    cur = conn.execute("SELECT id, name, email, password, contact FROM users WHERE lower(email)=lower(?)", (email,))
+    row = cur.fetchone()
+    conn.close()
+    if row and row[3] == password:
+        user = {"id": row[0], "name": row[1], "email": row[2], "password": row[3], "Contact": row[4]}
+        return jsonify({'message': 'Login successful!', 'user': user})
     return jsonify({'message': 'Email or Password Invalid.'}), 401
 
 # API endpoint to get products
@@ -110,30 +113,28 @@ def get_products():
 def update_cart():
     data = request.get_json()
     user_id = data.get('userId')
-    cart_items = data.get('cartItems')
-    db = read_db()
-    # Find if a cart already exists for the user
-    cart_index = None
-    for i, cart in enumerate(db['carts']):
-        if cart['userId'] == user_id:
-            cart_index = i
-            break
-    
-    if cart_index is not None:
-        db['carts'][cart_index]['items'] = cart_items
+    cart_items = data.get('cartItems') or []
+    conn = get_conn()
+    cur = conn.execute("SELECT user_id FROM carts WHERE user_id=?", (user_id,))
+    exists = cur.fetchone()
+    items_json = json.dumps(cart_items)
+    if exists:
+        conn.execute("UPDATE carts SET items=? WHERE user_id=?", (items_json, user_id))
     else:
-        db['carts'].append({'userId': user_id, 'items': cart_items})
-    write_db(db)
+        conn.execute("INSERT INTO carts (user_id, items) VALUES (?, ?)", (user_id, items_json))
+    conn.commit()
+    conn.close()
     return jsonify({'message': 'Cart updated successfully.'})
 
 # API endpoint to retrieve a user's cart
 @app.route('/api/cart/<int:user_id>', methods=['GET'])
 def get_cart(user_id):
-    db = read_db()
-    
-    for cart in db['carts']:
-        if cart['userId'] == user_id:
-            return jsonify(cart['items'])
+    conn = get_conn()
+    cur = conn.execute("SELECT items FROM carts WHERE user_id=?", (user_id,))
+    row = cur.fetchone()
+    conn.close()
+    if row and row[0]:
+        return jsonify(json.loads(row[0]))
     return jsonify([])  
 
 
