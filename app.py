@@ -29,7 +29,7 @@ def signup():
     password = data.get('password')
     phone = data.get('phoneNumber')
     conn = get_conn()
-    cur = conn.execute("SELECT id FROM users WHERE lower(email)=lower(?)", (email))
+    cur = conn.execute("SELECT id FROM users WHERE lower(email)=lower(?)", (email,))
     existing = cur.fetchone()
     if existing:
         conn.close()
@@ -95,7 +95,7 @@ def get_products():
          "name": "Gulab Jamun",
          "description": "Sweet, Pakistani Dessert.",
          "price": 2.50,
-         "image": "/static/images/gulab_jamun.jpeg"
+         "image": "/static/images/gulab_jamun.jpg"
        },
         {
          "id": 6,
