@@ -6,6 +6,7 @@
 On frontend I have Products listing, Shopping Cart and Login Sigup Button 
 
 On frontend products Data is coming from app.py for this I get help from stackoverflow and w3school
+
 In main.js you can see  fetchproducts function
 
 function fetchProducts() {
@@ -60,3 +61,11 @@ def get_cart(user_id):
 To find and return the items from the first cart in db['carts'] where cart['userId'] matches the given user_id.
 
 If no such cart exists, it returns an empty list.
+
+#--------------------SQLITE MOVE---------------------------
+
+GPT helped me pick a simple beginner friendly database and we moved from JSON file to sqlite.
+I learned sqlite basics from https://www.geeksforgeeks.org/python/python-sqlite/
+I practiced simple SQL queries on https://www.programiz.com/sql/online-compiler
+GPT also told me about DB Browser to view the database content.
+GPT helped me understand the idea of data seeding and we added seed.py to load products.
