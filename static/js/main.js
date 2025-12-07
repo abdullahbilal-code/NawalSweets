@@ -27,6 +27,8 @@ function renderProducts() {
     productCard.innerHTML = `
       <img src="${product.image}" alt="${product.name}">
       <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      <br>
       <p>Price: €${product.price.toFixed(2)}</p>
       <div class="quantity-controls">
         <button onclick="decrementQuantity(${product.id})">-</button>
@@ -129,9 +131,9 @@ function updateCartBackend() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ userId: loggedInUser.id, cartItems: cart })
   })
-  .then(response => response.json())
-  .then(data => console.log(data.message))
-  .catch(err => console.error('Error updating cart:', err));
+    .then(response => response.json())
+    .then(data => console.log(data.message))
+    .catch(err => console.error('Error updating cart:', err));
 }
 
 // Checkout: clear cart and show success message

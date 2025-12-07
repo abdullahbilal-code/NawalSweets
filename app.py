@@ -14,6 +14,7 @@ def init_db():
     conn = get_conn()
     conn.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT, contact TEXT)")
     conn.execute("CREATE TABLE IF NOT EXISTS carts (user_id INTEGER PRIMARY KEY, items TEXT)")
+    conn.execute("CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY, name TEXT, description TEXT, price REAL, image TEXT)")
     conn.commit()
     conn.close()
 
@@ -60,52 +61,13 @@ def login():
 # API endpoint to get products
 @app.route('/api/products', methods=['GET'])
 def get_products():
-    products = [
-        {
-            "id": 1,
-            "name": "Chocolate Fudge",
-            "description": "Rich, creamy fudge chocolate.",
-            "price": 2.50,
-            "image": "/static/images/chocolate_fudge.jpg"
-        },
-        {
-            "id": 2,
-            "name": "Caramel Toffee",
-            "description": "Sweet, chewy caramel toffee.",
-            "price": 1.75,
-            "image": "/static/images/caramel_toffee.jpg"
-        },
-        {
-           "id": 3,
-           "name": "Strawberry Candy",
-           "description": "Delicious strawberry-flavored candy.",
-           "price": 1.25,
-            "image": "/static/images/strawberry_candy.jpg"
-
-        },
-       {
-         "id": 4,
-         "name": "Mint Delight",
-         "description": "Cool, minty sweet treat.",
-         "price": 1.95,
-         "image": "/static/images/mint_delight.jpg"
-       },
-        {
-         "id": 5,
-         "name": "Gulab Jamun",
-         "description": "Sweet, Pakistani Dessert.",
-         "price": 2.50,
-         "image": "/static/images/gulab_jamun.jpg"
-       },
-        {
-         "id": 6,
-         "name": "Habshi Halwa",
-         "description": "Healthy, sweet delightfull treat.",
-         "price": 3.95,
-         "image": "/static/images/habshi_halwa.jpg"
-       }
-       
-    ]
+    conn = get_conn()
+    cur = conn.execute("SELECT id, name, description, price, image FROM products")
+    rows = cur.fetchall()
+    conn.close()
+    products = []
+    for row in rows:
+        products.append({"id": row[0], "name": row[1], "description": row[2], "price": row[3], "image": row[4]})
     return jsonify(products)
 
 #  endpoint to update a users cart
